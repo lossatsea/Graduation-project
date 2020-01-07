@@ -64,8 +64,6 @@ def calculate_gp(D, X, device):
 
 def show(img):
     npimg = img.numpy()
-    #plt.figure(figsize=(25,25))
-    #plt.imshow(np.transpose(npimg, (1,2,0)), interpolation='nearest')
     plt.pause(0.05)
     return npimg
 
@@ -86,18 +84,6 @@ def make_grid(rows, imgs, output_path, epoch):
 def make_grid2(rows, imgs, output_path, iter, type):
     path = os.path.join(output_path, type + '-sample_iter' + str(iter) + '.jpg')
     torchvision.utils.save_image(imgs, path, nrow=rows)
-    '''
-    imgs = (imgs + 1)/2
-    imgs = imgs.clamp(0,1)
-    imgs *= 255
-    list = []
-    for i in range(imgs.shape[0]):
-        list.append(imgs[i])
-    path = os.path.join(output_path, 'sample_' + str(epoch) + '.jpg')
-    torchvision.utils.save_image(list, path, nrow=rows)
-    print('ok')
-    return denorm(torch.stack(list))
-    '''
 
 def make_curve(D_losses, G_losses, output_path):
     plt.figure()
@@ -108,6 +94,7 @@ def make_curve(D_losses, G_losses, output_path):
     output_path = os.path.join(output_path, 'loss.png')
     plt.savefig(output_path)
 
+#draw curve of loss
 def save_curve(start_epoch, end_epoch, output_path):
     epoch = end_epoch-start_epoch+1
     D_losses = []
