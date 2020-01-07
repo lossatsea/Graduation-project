@@ -17,8 +17,6 @@ class ResidualBlock_G(nn.Module):
 
     def forward(self, x):
         out = self.block(x)
-        #print(x.size(), out.size())
-        #out = out.reshape((out.shape[0], 1024, 16, 16))
         return torch.add(x, out)
 
 class UpscaleBlock(nn.Module):
@@ -34,7 +32,6 @@ class UpscaleBlock(nn.Module):
 
     def forward(self, x):
         out = self.block(x)
-        #print(out.size())
         return out
 
 class generator(nn.Module):
@@ -47,9 +44,6 @@ class generator(nn.Module):
             nn.Linear(latent_dim, 64 * 16 * 16),
         )
         self.block_input_2 = nn.Sequential(
-            #nn.BatchNorm2d(1024),
-            #nn.ReLU(),
-            #nn.Conv2d(in_channels=1024, out_channels=64, kernel_size=1, stride=1, padding=0),
             nn.BatchNorm2d(64, momentum=0.8),
             nn.ReLU()
         )
@@ -78,25 +72,25 @@ class generator(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x):
-        #print(x)
         #first
         out = self.block_input_1(x)
         out = out.reshape((out.shape[0], 64, 16, 16))
         out = self.block_input_2(out)
         residual = out
-        #print('------res')
+
         #residual
         out = self.residual(out)
-        #print('------after res')
+
         #after residual
         out = self.block_mid(out)
         out = torch.add(residual, out)
-        #print('------up')
+        
         #upsample
         out = self.upsample(out)
+        
         #final
         out = self.block_output(out)
-        #print(out.size())
+        
         return out
 
 class ResiduaBlock_D(nn.Module):
