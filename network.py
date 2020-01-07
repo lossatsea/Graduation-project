@@ -3,6 +3,10 @@ import torch.nn as nn
 from utils import weight_initialize
 import torchvision.transforms as transforms
 
+#--------------------------------------------------------------------------
+#                           generator
+#--------------------------------------------------------------------------
+
 class ResidualBlock_G(nn.Module):
     def __init__(self):
         super(ResidualBlock_G, self).__init__()
@@ -93,6 +97,10 @@ class generator(nn.Module):
         
         return out
 
+#--------------------------------------------------------------------------
+#                           discriminator
+#--------------------------------------------------------------------------
+    
 class ResiduaBlock_D(nn.Module):
     def __init__(self, in_channels, out_channels, last_kernel):
         super(ResiduaBlock_D, self).__init__()
