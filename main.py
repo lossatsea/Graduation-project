@@ -38,21 +38,6 @@ optimizer_D = torch.optim.Adam(D.parameters(), lr=lr, betas=(beta1, beta2))
 
 G.to(device)
 D.to(device)
-'''
-output17: 0.0003--(0.8/epoch2)-->epoch126 0.0003--(0.8/epoch10)-->epoch180 0.00025--(0.8/epoch15)-->epoch226
-output18: 0.0002-->iteration50000 0.0002--(0.9/epoch1)
-output19: 0.0001--(0.95/epoch1)-->epoch100
-output20: network last 2 bias (delete false) 0.0002-->iteration50000 0.0002--(0.1/epoch5) 
-output21: network some relu (add True) 0.0002--(0.8/epoch10)
-output22: lambda_adv=14 0.0002--(0.1/epoch10)
-output23: 0.0002-->iteration50000 0.0002--(0.1/epoch1) 
-output24: add 0.2,0.8,True... 0.0002-->iteration50000 0.0002--(0.1/epoch1)
-output25: no_gen 0.0002-->iteration50000 0.0002--(0.1/epoch1)
-output26: delete 0.8 0.0002-->iteration50000 0.0002--(0.1/epoch1)
-output27: add bias=False 0.0002-->iteration50000 0.0002--(0.1/epoch1)
-output28: add instanceNorm2d affine=True 0.0002-->iteration50000 0.0002--(0.1/epoch1)
-output29: delete instanceNorm2d, 0.2, add 0.8 0.0002-->iteration50000 0.0002--(0.1/epoch1)
-'''
 
 if is_load:
     G_load_path = os.path.join('./output18', 'G(1gp_2gen_bn)_epoch44.pth')
