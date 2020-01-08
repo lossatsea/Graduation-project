@@ -57,14 +57,14 @@ def train(G, D, start_epochs, end_epochs, batch_size, train_dataset, optimizer_G
 
             #fake image
             z = Variable(torch.FloatTensor(np.random.normal(0, 1, (batch_size, latent_dim-classes_dim))).to(device))
-            #gen_labels = Variable(torch.FloatTensor(np.random.randint(0, 2, (batch_size, classes_dim))).to(device))
-            input = torch.cat((z, real_labels.clone()), 1)
+            gen_labels = Variable(torch.FloatTensor(np.random.randint(0, 2, (batch_size, classes_dim))).to(device))
+            input = torch.cat((z, gen_labels.clone()), 1)
             fake_imgs = G(input)
 
             pred_valid_fake, pred_label_fake = D(fake_imgs.detach())
 
             errD_valid_fake = valid_criterion(torch.squeeze(pred_valid_fake), fake)
-            errD_label_fake = label_criterion(pred_label_fake, real_labels)
+            errD_label_fake = label_criterion(pred_label_fake, gen_labels)
 
             errD_fake = errD_valid_fake * lambda_adv + errD_label_fake
             errD_fake.backward()
@@ -98,7 +98,7 @@ def train(G, D, start_epochs, end_epochs, batch_size, train_dataset, optimizer_G
 
             pred_valid_fake, pred_label_fake = D(fake_imgs)
             errG_valid = valid_criterion(torch.squeeze(pred_valid_fake), valid)
-            errG_label = label_criterion(pred_label_fake, real_labels)
+            errG_label = label_criterion(pred_label_fake, gen_labels)
             errG = errG_label + errG_valid * lambda_adv
 
             errG.backward()
